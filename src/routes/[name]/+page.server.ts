@@ -3,23 +3,16 @@ import { Hypicle, Player } from 'hypicle';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ params }) => {
-	try {
-		const client = new Hypicle(API_KEY);
-		const uuid = await getUUIDByName(params.name);
-		const player = new Player(client, uuid);
+	const client = new Hypicle(API_KEY);
+	const uuid = await getUUIDByName(params.name);
+	const player = new Player(client, uuid);
 
-		const stats = player.getStats();
-		const bedwarsStats = await stats.getBedwars().get();
+	const stats = player.getStats();
+	const bedwarsStats = await stats.getBedwars().get();
 
-		return {
-			name: params.name,
-			bedwars: bedwarsStats
-		};
-	} catch (error) {
-		return {
-			name: 'Not found',
-			bedwars: null
-		};
+	return {
+		name: params.name,
+		bedwars: bedwarsStats
 	}
 };
 
