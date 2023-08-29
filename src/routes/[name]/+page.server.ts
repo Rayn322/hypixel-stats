@@ -5,14 +5,14 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async ({ params }) => {
 	try {
 		const client = new Hypicle(API_KEY);
-		const uuid = await getUUIDByName(params.name);
+		const { name, uuid } = await getPlayerByName(params.name);
 		const player = new Player(client, uuid);
 
 		const stats = player.getStats();
 		const bedwarsStats = await stats.getBedwars().get();
 
 		return {
-			name: params.name,
+			name,
 			bedwars: bedwarsStats
 		};
 	} catch (error) {
@@ -24,8 +24,11 @@ export const load: PageServerLoad = async ({ params }) => {
 	}
 };
 
-async function getUUIDByName(name: string) {
+async function getPlayerByName(name: string) {
 	const response = await fetch(`https://playerdb.co/api/player/minecraft/${name}`);
 	const json = await response.json();
-	return json.data.player.id as string;
+	return {
+		uuid: json.data.player.id as string,
+		name: json.data.player.username as string
+	};
 }
