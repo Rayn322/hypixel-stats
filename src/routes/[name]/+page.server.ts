@@ -2,9 +2,9 @@ import { API_KEY } from '$env/static/private';
 import { Hypicle, Player } from 'hypicle';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ params, fetch }) => {
+export const load: PageServerLoad = async ({ params }) => {
 	const client = new Hypicle(API_KEY);
-	const uuid = await getUUIDByName(params.name, fetch);
+	const uuid = await getUUIDByName(params.name);
 	console.log(`UUID of player ${params.name} is ${uuid}`);
 	const player = new Player(client, uuid);
 
@@ -17,10 +17,7 @@ export const load: PageServerLoad = async ({ params, fetch }) => {
 	};
 };
 
-async function getUUIDByName(
-	name: string,
-	fetch: (input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>
-) {
+async function getUUIDByName(name: string) {
 	const response = await fetch(`https://api.mojang.com/users/profiles/minecraft/${name}`);
 	console.log('mojang response is ', response);
 	const json = await response.json();
