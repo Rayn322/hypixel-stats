@@ -18,6 +18,7 @@ export const load: PageServerLoad = async ({ params }) => {
 };
 
 async function getUUIDByName(name: string) {
+	console.log(`fetching from https://api.mojang.com/users/profiles/minecraft/${name}`);
 	const response = await fetch(`https://api.mojang.com/users/profiles/minecraft/${name}`);
 	console.log('mojang response is ', response);
 	const json = await response.json();
