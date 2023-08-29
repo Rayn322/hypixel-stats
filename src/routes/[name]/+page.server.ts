@@ -22,5 +22,9 @@ async function getUUIDByName(
 	fetch: (input: RequestInfo | URL, init?: RequestInit | undefined) => Promise<Response>
 ) {
 	const response = await fetch(`https://api.mojang.com/users/profiles/minecraft/${name}`);
-	return (await response.json()).id as string;
+	console.log('mojang response is ', response);
+	const json = await response.json();
+	console.log('mojang json is ', json);
+	return json.id as string;
+	// return (await response.json()).id as string;
 }
