@@ -18,11 +18,17 @@ export const load: PageServerLoad = async ({ params }) => {
 };
 
 async function getUUIDByName(name: string) {
-	console.log(`fetching from https://api.mojang.com/users/profiles/minecraft/${name}`);
-	const response = await fetch(`https://api.mojang.com/users/profiles/minecraft/${name}`);
-	console.log('mojang response is ', response);
+	const response = await fetch(`https://api.mojang.com/users/profiles/minecraft/${name}`, {
+		method: 'GET',
+		headers: {
+			Accept: 'application/json'
+		}
+	});
+	console.log('status is', response.status);
+	console.log('headers are', response.headers);
+	console.log('mojang response is', response);
 	const json = await response.json();
-	console.log('mojang json is ', json);
+	console.log('mojang json is', json);
 	return json.id as string;
 	// return (await response.json()).id as string;
 }
