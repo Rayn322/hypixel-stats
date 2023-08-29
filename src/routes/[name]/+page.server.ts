@@ -6,6 +6,7 @@ export const load: PageServerLoad = async ({ params }) => {
 	const client = new Hypicle(API_KEY);
 	const uuid = await getUUIDByName(params.name);
 	console.log(`UUID of player ${params.name} is ${uuid}`);
+	// @ts-expect-error testing
 	const player = new Player(client, uuid);
 
 	const stats = player.getStats();
@@ -26,9 +27,10 @@ async function getUUIDByName(name: string) {
 	});
 	console.log('status is', response.status);
 	console.log('headers are', response.headers);
-	console.log('mojang response is', JSON.stringify(response));
-	const json = await response.json();
-	console.log('mojang json is', json);
-	return json.id as string;
+	console.log('mojang response is', response);
+	const text = await response.text();
+	console.log('mojang text is', text);
+	// return json.id as string;
+	return undefined;
 	// return (await response.json()).id as string;
 }
