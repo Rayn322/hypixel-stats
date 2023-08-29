@@ -16,6 +16,7 @@ export const load: PageServerLoad = async ({ params }) => {
 			bedwars: bedwarsStats
 		};
 	} catch (error) {
+		console.error(error);
 		return {
 			name: 'Not found',
 			bedwars: null
@@ -24,6 +25,7 @@ export const load: PageServerLoad = async ({ params }) => {
 };
 
 async function getUUIDByName(name: string) {
-	const response = await fetch(`https://api.mojang.com/users/profiles/minecraft/${name}`);
-	return (await response.json()).id as string;
+	const response = await fetch(`https://playerdb.co/api/player/minecraft/${name}`);
+	const json = await response.json();
+	return json.data.player.id as string;
 }
