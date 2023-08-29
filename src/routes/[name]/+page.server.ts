@@ -26,7 +26,7 @@ async function getUUIDByName(name: string) {
 	});
 	console.log('status is', response.status);
 	console.log('headers are', response.headers);
-	console.log('mojang response is', response);
+	console.log('mojang response is', JSON.stringify(response));
 	const json = await response.json();
 	console.log('mojang json is', json);
 	return json.id as string;
