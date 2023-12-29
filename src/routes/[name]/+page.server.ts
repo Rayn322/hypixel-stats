@@ -9,7 +9,7 @@ export const load: PageServerLoad = async ({ params }) => {
 		const player = new Player(client, uuid);
 
 		const stats = player.getStats();
-		const bedwarsStats = await stats.getBedwars().get();
+		const bedwarsStats = stats.getBedwars().get();
 
 		return {
 			name,
